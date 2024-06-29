@@ -1,14 +1,7 @@
-# Blood-Bank-Mern-Stack-Project
-complete mern stack blood bank project source code please check commits
+Developed a MERN stack platform for the NSS Blood Donation Drive, improving accessibility and efficiency.
 
-## project playlist 🎞
-https://youtube.com/playlist?list=PLuHGmgpyHfRzs3VmqXkguFuNknQFbT0db
+Implemented real-time notifications and established strong security protocols with JWT, ensuring secure user
+authentication and protection of sensitive user data.
 
-# Thank you for watching TechinfoYT youtube channel
-😎 Please Like Share and Subscribe ! 🙏
-
-# Having Any Isuse Or Query DM On Instagram 🤷‍♀️
-https://www.instagram.com/technical_update/
-
-
-
+Designed scalable RESTful APIs to enable smooth and effective front-end to back-end communication,
+resulting in a maintainable and robust codebase.
