@@ -1,26 +1,49 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// Components
+import ProtectedRoute from "./components/Routes/ProtectedRoute";
+import PublicRoute from "./components/Routes/PublicRoute";
+
+// Pages
 import HomePage from "./pages/HomePage";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import ProtectedRoute from "./components/Routes/ProtectedRoute";
-import PublicRoute from "./components/Routes/PublicRoute";
-import Donar from "./pages/Dashboard/Donar";
+
+// Dashboard Pages
+import Donor from "./pages/Dashboard/Donor";
 import Hospitals from "./pages/Dashboard/Hospitals";
 import OrganisationPage from "./pages/Dashboard/OrganisationPage";
 import Consumer from "./pages/Dashboard/Consumer";
 import Donation from "./pages/Donation";
 import Analytics from "./pages/Dashboard/Analytics";
-import DonarList from "./pages/Admin/DonarList";
+
+// Admin Pages
+import DonorList from "./pages/Admin/DonorList";
 import HospitalList from "./pages/Admin/HospitalList";
 import OrgList from "./pages/Admin/OrgList";
 import AdminHome from "./pages/Admin/AdminHome";
-function App() {
+
+const App = () => {
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      
       <Routes>
+        {/* Admin Routes */}
         <Route
           path="/admin"
           element={
@@ -30,10 +53,10 @@ function App() {
           }
         />
         <Route
-          path="/donar-list"
+          path="/donor-list"
           element={
             <ProtectedRoute>
-              <DonarList />
+              <DonorList />
             </ProtectedRoute>
           }
         />
@@ -54,6 +77,7 @@ function App() {
           }
         />
 
+        {/* Dashboard Routes */}
         <Route
           path="/hospital"
           element={
@@ -87,7 +111,7 @@ function App() {
           }
         />
         <Route
-          path="/orgnaisation"
+          path="/organisation"
           element={
             <ProtectedRoute>
               <OrganisationPage />
@@ -95,13 +119,15 @@ function App() {
           }
         />
         <Route
-          path="/donar"
+          path="/donor"
           element={
             <ProtectedRoute>
-              <Donar />
+              <Donor />
             </ProtectedRoute>
           }
         />
+
+        {/* Main Routes */}
         <Route
           path="/"
           element={
@@ -110,6 +136,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Auth Routes */}
         <Route
           path="/login"
           element={
@@ -129,6 +157,6 @@ function App() {
       </Routes>
     </>
   );
-}
+};
 
 export default App;

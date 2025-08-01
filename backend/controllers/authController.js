@@ -4,100 +4,222 @@ const jwt = require("jsonwebtoken");
 
 const registerController = async (req, res) => {
   try {
-    const exisitingUser = await userModel.findOne({ email: req.body.email });
-    //validation
-    if (exisitingUser) {
-      return res.status(200).send({
+    const { email, password, role, name, organisationName, hospitalName, address, phone, website } = req.body;
+
+    // Validation
+    if (!email || !password || !role || !address || !phone) {
+      return res.status(400).json({
         success: false,
-        message: "User ALready exists",
+        message: "Please provide all required fields",
       });
     }
-    //hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    req.body.password = hashedPassword;
-    //rest data
-    const user = new userModel(req.body);
+
+    // Check if user already exists
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        message: "User already exists with this email",
+      });
+    }
+
+    // Hash password
+    const salt = await bcrypt.genSalt(12);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create user data object
+    const userData = {
+      email,
+      password: hashedPassword,
+      role,
+      address,
+      phone,
+      website,
+    };
+
+    // Add role-specific fields
+    if (role === "donor" || role === "admin") {
+      if (!name) {
+        return res.status(400).json({
+          success: false,
+          message: "Name is required for donor and admin roles",
+        });
+      }
+      userData.name = name;
+    }
+
+    if (role === "organisation") {
+      if (!organisationName) {
+        return res.status(400).json({
+          success: false,
+          message: "Organisation name is required for organisation role",
+        });
+      }
+      userData.organisationName = organisationName;
+    }
+
+    if (role === "hospital") {
+      if (!hospitalName) {
+        return res.status(400).json({
+          success: false,
+          message: "Hospital name is required for hospital role",
+        });
+      }
+      userData.hospitalName = hospitalName;
+    }
+
+    // Create and save user
+    const user = new userModel(userData);
     await user.save();
-    return res.status(201).send({
+
+    // Remove password from response
+    const userResponse = user.toObject();
+    delete userResponse.password;
+
+    return res.status(201).json({
       success: true,
-      message: "User Registerd Successfully",
-      user,
+      message: "User registered successfully",
+      user: userResponse,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
+    console.error("Register error:", error);
+    
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const validationErrors = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({
+        success: false,
+        message: "Validation failed",
+        errors: validationErrors,
+      });
+    }
+
+    // Handle duplicate key error
+    if (error.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        message: "Email already exists",
+      });
+    }
+
+    return res.status(500).json({
       success: false,
-      message: "Error In Register API",
-      error,
+      message: "Internal server error during registration",
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 };
 
-//login call back
+// Login controller
 const loginController = async (req, res) => {
   try {
-    const user = await userModel.findOne({ email: req.body.email });
+    const { email, password, role } = req.body;
+
+    // Validation
+    if (!email || !password || !role) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide email, password, and role",
+      });
+    }
+
+    // Find user by email
+    const user = await userModel.findOne({ email }).select('+password');
     if (!user) {
-      return res.status(404).send({
+      return res.status(401).json({
         success: false,
-        message: "Invalid Credentials",
+        message: "Invalid credentials",
       });
     }
-    //check role
-    if (user.role !== req.body.role) {
-      return res.status(500).send({
+
+    // Check role
+    if (user.role !== role) {
+      return res.status(401).json({
         success: false,
-        message: "role dosent match",
+        message: "Role doesn't match",
       });
     }
-    //compare password
-    const comparePassword = await bcrypt.compare(
-      req.body.password,
-      user.password
+
+    // Compare password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      { 
+        userId: user._id,
+        role: user.role,
+        email: user.email
+      }, 
+      process.env.JWT_SECRET, 
+      {
+        expiresIn: "7d", // Extended to 7 days for better UX
+      }
     );
-    if (!comparePassword) {
-      return res.status(500).send({
-        success: false,
-        message: "Invalid Credentials",
-      });
-    }
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
-    return res.status(200).send({
+
+    // Remove password from response
+    const userResponse = user.toObject();
+    delete userResponse.password;
+
+    return res.status(200).json({
       success: true,
-      message: "Login Successfully",
+      message: "Login successful",
       token,
-      user,
+      user: userResponse,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({
+    console.error("Login error:", error);
+    return res.status(500).json({
       success: false,
-      message: "Error In Login API",
-      error,
+      message: "Internal server error during login",
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 };
 
-//GET CURRENT USER
+// Get current user controller
 const currentUserController = async (req, res) => {
   try {
-    const user = await userModel.findOne({ _id: req.body.userId });
-    return res.status(200).send({
+    const userId = req.body.userId;
+
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "User ID not found in request",
+      });
+    }
+
+    const user = await userModel.findById(userId).select('-password');
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
       success: true,
-      message: "User Fetched Successfully",
+      message: "User fetched successfully",
       user,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).send({
+    console.error("Current user error:", error);
+    return res.status(500).json({
       success: false,
-      message: "unable to get current user",
-      error,
+      message: "Unable to get current user",
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 };
 
-module.exports = { registerController, loginController, currentUserController };
+module.exports = { 
+  registerController, 
+  loginController, 
+  currentUserController 
+};
