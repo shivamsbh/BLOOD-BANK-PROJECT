@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../components/shared/Spinner";
 import Layout from "../components/shared/Layout/Layout";
-import Modal from "../components/shared/modal/Modal";
+import Modal from "../components/shared/Modal/Modal";
 import API from "../services/API";
 import moment from "moment";
 
@@ -31,7 +31,7 @@ const HomePage = () => {
   return (
     <Layout>
       {user?.role === "admin" && navigate("/admin")}
-      {error && <span>{alert(error)}</span>}
+      {error && <div className="alert alert-danger">{error}</div>}
       {loading ? (
         <Spinner />
       ) : (
@@ -52,8 +52,8 @@ const HomePage = () => {
                   <th scope="col">Blood Group</th>
                   <th scope="col">Inventory Type</th>
                   <th scope="col">Quantity</th>
-                  <th scope="col">Donar Email</th>
-                  <th scope="col">TIme & Date</th>
+                  <th scope="col">Donor Email</th>
+                  <th scope="col">Time & Date</th>
                 </tr>
               </thead>
               <tbody>

@@ -11,8 +11,8 @@ const OrganisationPage = () => {
   //find org records
   const getOrg = async () => {
     try {
-      if (user?.role === "donar") {
-        const { data } = await API.get("/inventory/get-orgnaisation");
+      if (user?.role === "donor") {
+        const { data } = await API.get("/inventory/get-organisation");
         //   console.log(data);
         if (data?.success) {
           setData(data?.organisations);
@@ -20,7 +20,7 @@ const OrganisationPage = () => {
       }
       if (user?.role === "hospital") {
         const { data } = await API.get(
-          "/inventory/get-orgnaisation-for-hospital"
+          "/inventory/get-organisation-for-hospital"
         );
         //   console.log(data);
         if (data?.success) {

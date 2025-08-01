@@ -5,8 +5,8 @@ import moment from "moment";
 
 const Hospitals = () => {
   const [data, setData] = useState([]);
-  //find donar records
-  const getDonars = async () => {
+  //find hospital records
+  const getHospitals = async () => {
     try {
       const { data } = await API.get("/inventory/get-hospitals");
       //   console.log(data);
@@ -14,12 +14,12 @@ const Hospitals = () => {
         setData(data?.hospitals);
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching hospitals:", error);
     }
   };
 
   useEffect(() => {
-    getDonars();
+    getHospitals();
   }, []);
 
   return (

@@ -7,8 +7,8 @@ import { useSelector } from "react-redux";
 const Consumer = () => {
   const { user } = useSelector((state) => state.auth);
   const [data, setData] = useState([]);
-  //find donar records
-  const getDonars = async () => {
+  //find donor records
+  const getConsumerRecords = async () => {
     try {
       const { data } = await API.post("/inventory/get-inventory-hospital", {
         filters: {
@@ -26,7 +26,7 @@ const Consumer = () => {
   };
 
   useEffect(() => {
-    getDonars();
+    getConsumerRecords();
   }, []);
 
   return (
@@ -36,7 +36,7 @@ const Consumer = () => {
           <thead>
             <tr>
               <th scope="col">Blood Group</th>
-              <th scope="col">Inventory TYpe</th>
+              <th scope="col">Inventory Type</th>
               <th scope="col">Quantity</th>
               <th scope="col">Email</th>
               <th scope="col">Date</th>

@@ -42,7 +42,7 @@ const DonorList = () => {
       if (!isConfirmed) return;
 
       setDeleteLoading(id);
-      const { data } = await API.delete(`/admin/delete-donor/${id}`);
+      const { data } = await API.delete(`/admin/delete-user/${id}`);
       
       if (data?.success) {
         toast.success(data?.message || "Donor deleted successfully");

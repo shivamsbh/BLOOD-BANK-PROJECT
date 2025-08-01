@@ -85,8 +85,8 @@ const Analytics = () => {
               <th scope="col">Blood Group</th>
               <th scope="col">Inventory Type</th>
               <th scope="col">Quantity</th>
-              <th scope="col">Donar Email</th>
-              <th scope="col">TIme & Date</th>
+              <th scope="col">Donor Email</th>
+              <th scope="col">Time & Date</th>
             </tr>
           </thead>
           <tbody>

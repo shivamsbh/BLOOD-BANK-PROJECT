@@ -1,24 +1,24 @@
 const userModel = require("../models/userModel");
 
-//GET DONAR LIST
-const getDonarsListController = async (req, res) => {
+//GET DONOR LIST
+const getDonorsListController = async (req, res) => {
   try {
-    const donarData = await userModel
-      .find({ role: "donar" })
+    const donorData = await userModel
+      .find({ role: { $in: ["donor", "donar"] } })
       .sort({ createdAt: -1 });
 
     return res.status(200).send({
       success: true,
-      Toatlcount: donarData.length,
-      message: "Donar List Fetched Successfully",
-      donarData,
+      totalCount: donorData.length,
+      message: "Donor List Fetched Successfully",
+      donorData,
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error in donor list API:", error);
     return res.status(500).send({
       success: false,
-      message: "Error In DOnar List API",
-      error,
+      message: "Error In Donor List API",
+      error: error.message,
     });
   }
 };
@@ -31,8 +31,8 @@ const getHospitalListController = async (req, res) => {
 
     return res.status(200).send({
       success: true,
-      Toatlcount: hospitalData.length,
-      message: "HOSPITAL List Fetched Successfully",
+      totalCount: hospitalData.length,
+      message: "Hospital List Fetched Successfully",
       hospitalData,
     });
   } catch (error) {
@@ -53,8 +53,8 @@ const getOrgListController = async (req, res) => {
 
     return res.status(200).send({
       success: true,
-      Toatlcount: orgData.length,
-      message: "ORG List Fetched Successfully",
+      totalCount: orgData.length,
+      message: "Organization List Fetched Successfully",
       orgData,
     });
   } catch (error) {
@@ -68,28 +68,34 @@ const getOrgListController = async (req, res) => {
 };
 // =======================================
 
-//DELETE DONAR
-const deleteDonarController = async (req, res) => {
+//DELETE USER (DONOR/HOSPITAL/ORG)
+const deleteUserController = async (req, res) => {
   try {
-    await userModel.findByIdAndDelete(req.params.id);
+    const deletedUser = await userModel.findByIdAndDelete(req.params.id);
+    if (!deletedUser) {
+      return res.status(404).send({
+        success: false,
+        message: "User not found",
+      });
+    }
     return res.status(200).send({
       success: true,
-      message: " Record Deleted successfully",
+      message: "User record deleted successfully",
     });
   } catch (error) {
-    console.log(error);
+    console.error("Error while deleting user:", error);
     return res.status(500).send({
       success: false,
-      message: "Error while deleting ",
-      error,
+      message: "Error while deleting user",
+      error: error.message,
     });
   }
 };
 
 //EXPORT
 module.exports = {
-  getDonarsListController,
+  getDonorsListController,
   getHospitalListController,
   getOrgListController,
-  deleteDonarController,
+  deleteUserController,
 };

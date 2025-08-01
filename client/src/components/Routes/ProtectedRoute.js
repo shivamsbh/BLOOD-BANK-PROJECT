@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
       }
     } catch (error) {
       localStorage.clear();
-      console.log(error);
+      console.error("Error in protected route:", error);
     }
   };
 

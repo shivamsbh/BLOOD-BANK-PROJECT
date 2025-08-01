@@ -132,8 +132,11 @@ const loginController = async (req, res) => {
       });
     }
 
-    // Check role
-    if (user.role !== role) {
+    // Check role (handle both old and new spelling)
+    const normalizedUserRole = user.role === 'donar' ? 'donor' : user.role;
+    const normalizedLoginRole = role === 'donar' ? 'donor' : role;
+    
+    if (normalizedUserRole !== normalizedLoginRole) {
       return res.status(401).json({
         success: false,
         message: "Role doesn't match",

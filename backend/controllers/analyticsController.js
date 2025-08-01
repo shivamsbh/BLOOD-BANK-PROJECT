@@ -1,7 +1,7 @@
 const inventoryModel = require("../models/inventoryModel");
 const mongoose = require("mongoose");
 //GET BLOOD DATA
-const bloodGroupDetailsContoller = async (req, res) => {
+const bloodGroupDetailsController = async (req, res) => {
   try {
     const bloodGroups = ["O+", "O-", "AB+", "AB-", "A+", "A-", "B+", "B-"];
     const bloodGroupData = [];
@@ -70,4 +70,4 @@ const bloodGroupDetailsContoller = async (req, res) => {
   }
 };
 
-module.exports = { bloodGroupDetailsContoller };
+module.exports = { bloodGroupDetailsController };

@@ -13,7 +13,8 @@ const Modal = () => {
   const handleModalSubmit = async () => {
     try {
       if (!bloodGroup || !quantity) {
-        return alert("Please Provide All Fields");
+        alert("Please Provide All Fields");
+        return;
       }
       const { data } = await API.post("/inventory/create-inventory", {
         email,
@@ -28,7 +29,7 @@ const Modal = () => {
       }
     } catch (error) {
       alert(error.response.data.message);
-      console.log(error);
+      console.error("Error creating inventory record:", error);
       window.location.reload();
     }
   };
@@ -92,8 +93,8 @@ const Modal = () => {
                 aria-label="Default select example"
                 onChange={(e) => setBloodGroup(e.target.value)}
               >
-                <option defaultValue={"Open this select menu"}>
-                  Open this select menu
+                <option value="">
+                  Select Blood Group
                 </option>
                 <option value={"O+"}>O+</option>
                 <option value={"O-"}>O-</option>
@@ -105,16 +106,16 @@ const Modal = () => {
                 <option value={"B-"}>B-</option>
               </select>
               <InputType
-                labelText={"Donar Email"}
-                labelFor={"donarEmail"}
+                labelText={"Donor Email"}
+                labelFor={"donorEmail"}
                 inputType={"email"}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <InputType
-                labelText={"Quanitity (ML)"}
+                labelText={"Quantity (ML)"}
                 labelFor={"quantity"}
-                inputType={"Number"}
+                inputType={"number"}
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
               />
