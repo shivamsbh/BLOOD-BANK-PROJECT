@@ -9,8 +9,8 @@ export const userLogin = createAsyncThunk(
       const { data } = await API.post("/auth/login", { role, email, password });
       //store token
       if (data.success) {
-        alert(data.message);
         localStorage.setItem("token", data.token);
+        // Immediate redirect without delay to prevent flicker
         window.location.replace("/");
       }
       return data;
@@ -54,9 +54,8 @@ export const userRegister = createAsyncThunk(
         website,
       });
       if (data?.success) {
-        alert("User Registered Successfully");
+        // Immediate redirect without delay to prevent flicker
         window.location.replace("/login");
-        // toast.success("User Registered Successfully");
       }
     } catch (error) {
       console.log(error);

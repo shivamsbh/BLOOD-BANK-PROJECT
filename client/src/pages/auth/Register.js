@@ -11,11 +11,42 @@ const Register = () => {
       {loading ? (
         <Spinner />
       ) : (
-        <div className="row g-0">
-          <div className="col-md-8 form-banner ">
-            <img src="./assets/images/banner2.jpg" alt="registerImage" />
-          </div>
-          <div className="col-md-4 form-container">
+        <div className="auth-container">
+          <div className="auth-card">
+            <div className="auth-header">
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                gap: 'var(--spacing-sm)',
+                marginBottom: 'var(--spacing-md)'
+              }}>
+                <div style={{ 
+                  background: 'var(--gradient-primary)', 
+                  borderRadius: '50%', 
+                  padding: 'var(--spacing-md)', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  boxShadow: 'var(--shadow-lg)',
+                  animation: 'heartbeat 2s infinite'
+                }}>
+                  <i className="fa-solid fa-droplet" style={{ color: 'white', fontSize: '1.5rem' }}></i>
+                </div>
+                <span style={{ 
+                  fontSize: '1.8rem',
+                  fontWeight: '700',
+                  background: 'var(--gradient-primary)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  letterSpacing: '0.5px'
+                }}>
+                  LifeFlow Bank
+                </span>
+              </div>
+              <h2 className="auth-title">Join LifeFlow</h2>
+              <p className="auth-subtitle">Create your account and start saving lives today</p>
+            </div>
             <Form
               formTitle={"Register"}
               submitBtn={"Register"}

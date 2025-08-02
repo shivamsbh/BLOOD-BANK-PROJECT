@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastProvider } from "./components/shared/Toast/ToastManager";
 
 // Components
 import ProtectedRoute from "./components/Routes/ProtectedRoute";
@@ -28,7 +29,7 @@ import AdminHome from "./pages/Admin/AdminHome";
 
 const App = () => {
   return (
-    <>
+    <ToastProvider>
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -155,7 +156,7 @@ const App = () => {
           }
         />
       </Routes>
-    </>
+    </ToastProvider>
   );
 };
 

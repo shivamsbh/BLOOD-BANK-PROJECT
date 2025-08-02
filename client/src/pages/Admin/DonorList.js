@@ -61,32 +61,39 @@ const DonorList = () => {
 
   return (
     <Layout>
-      <div className="container-fluid">
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <h4>Donor Management</h4>
-          <button 
-            className="btn btn-primary"
-            onClick={getDonors}
-            disabled={loading}
-          >
-            {loading ? "Refreshing..." : "Refresh"}
-          </button>
-        </div>
-        
-        {loading ? (
-          <div className="text-center">
-            <div className="spinner-border" role="status">
-              <span className="visually-hidden">Loading...</span>
+      <div className="dashboard-container">
+        {/* Modern Dashboard Header */}
+        <div className="dashboard-header">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <h1 className="dashboard-title">Donor Management</h1>
+              <p className="dashboard-subtitle">
+                Manage and oversee all registered blood donors
+              </p>
             </div>
+            <button 
+              className="add-inventory-btn"
+              onClick={getDonors}
+              disabled={loading}
+            >
+              <i className="fa-solid fa-refresh"></i>
+              {loading ? "Refreshing..." : "Refresh Data"}
+            </button>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="loader-container" style={{ height: '400px' }}>
+            <div className="loader"></div>
           </div>
         ) : (
-          <div className="table-responsive">
-            <table className="table table-striped table-hover">
-              <thead className="table-dark">
+          <div className="modern-table-container">
+            <table className="modern-table">
+              <thead>
                 <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Phone</th>
+                  <th scope="col">Donor Name</th>
+                  <th scope="col">Email Address</th>
+                  <th scope="col">Phone Number</th>
                   <th scope="col">Registration Date</th>
                   <th scope="col">Actions</th>
                 </tr>
@@ -99,24 +106,50 @@ const DonorList = () => {
                     
                     return (
                       <tr key={record._id}>
-                        <td>{displayName}</td>
-                        <td>{record.email}</td>
-                        <td>{record.phone}</td>
-                        <td>{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
+                        <td>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <i className="fa-solid fa-user" style={{ color: 'var(--primary-color)' }}></i>
+                            {displayName}
+                          </div>
+                        </td>
+                        <td>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <i className="fa-solid fa-envelope" style={{ color: 'var(--accent-color)' }}></i>
+                            {record.email}
+                          </div>
+                        </td>
+                        <td>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <i className="fa-solid fa-phone" style={{ color: 'var(--success-color)' }}></i>
+                            {record.phone}
+                          </div>
+                        </td>
+                        <td>
+                          <span className="inventory-type-badge">
+                            {moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}
+                          </span>
+                        </td>
                         <td>
                           <button
                             className="btn btn-danger btn-sm"
                             onClick={() => handleDelete(record._id, displayName)}
                             disabled={deleteLoading === record._id}
+                            style={{ 
+                              background: 'var(--gradient-primary)', 
+                              border: 'none',
+                              borderRadius: 'var(--radius-md)',
+                              padding: 'var(--spacing-sm) var(--spacing-md)',
+                              transition: 'var(--transition-normal)'
+                            }}
                           >
                             {deleteLoading === record._id ? (
                               <>
-                                <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+                                <div className="loader" style={{ width: '16px', height: '16px', marginRight: '0.5rem' }}></div>
                                 Deleting...
                               </>
                             ) : (
                               <>
-                                <i className="fa fa-trash me-1"></i>
+                                <i className="fa fa-trash" style={{ marginRight: '0.5rem' }}></i>
                                 Delete
                               </>
                             )}
@@ -127,8 +160,11 @@ const DonorList = () => {
                   })
                 ) : (
                   <tr>
-                    <td colSpan="5" className="text-center">
-                      No donor records found
+                    <td colSpan="5" style={{ textAlign: 'center', padding: '2rem' }}>
+                      <div style={{ color: 'var(--secondary-light)', fontSize: '1.1rem' }}>
+                        <i className="fa-solid fa-users" style={{ marginRight: '0.5rem' }}></i>
+                        No donor records found. Donors will appear here once registered.
+                      </div>
                     </td>
                   </tr>
                 )}

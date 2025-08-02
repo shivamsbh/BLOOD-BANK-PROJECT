@@ -31,29 +31,71 @@ const Consumer = () => {
 
   return (
     <Layout>
-      <div className="container mt-4">
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">Blood Group</th>
-              <th scope="col">Inventory Type</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Email</th>
-              <th scope="col">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data?.map((record) => (
-              <tr key={record._id}>
-                <td>{record.bloodGroup}</td>
-                <td>{record.inventoryType}</td>
-                <td>{record.quantity}</td>
-                <td>{record.email}</td>
-                <td>{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
+      <div className="dashboard-container">
+        {/* Modern Dashboard Header */}
+        <div className="dashboard-header">
+          <h1 className="dashboard-title">Consumer Records</h1>
+          <p className="dashboard-subtitle">
+            Track blood consumption and outgoing inventory
+          </p>
+        </div>
+
+        <div className="modern-table-container">
+          <table className="modern-table">
+            <thead>
+              <tr>
+                <th scope="col">Blood Group</th>
+                <th scope="col">Type</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Consumer Email</th>
+                <th scope="col">Date & Time</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data?.length > 0 ? (
+                data.map((record) => (
+                  <tr key={record._id}>
+                    <td>
+                      <span className="blood-group-badge">
+                        {record.bloodGroup}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="inventory-type-badge">
+                        {record.inventoryType}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="quantity-display">
+                        {record.quantity} ML
+                      </span>
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <i className="fa-solid fa-envelope" style={{ color: 'var(--accent-color)' }}></i>
+                        {record.email}
+                      </div>
+                    </td>
+                    <td>
+                      <span className="inventory-type-badge">
+                        {moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" style={{ textAlign: 'center', padding: '2rem' }}>
+                    <div style={{ color: 'var(--secondary-light)', fontSize: '1.1rem' }}>
+                      <i className="fa-solid fa-chart-line" style={{ marginRight: '0.5rem' }}></i>
+                      No consumer records found. No blood has been consumed yet.
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </Layout>
   );

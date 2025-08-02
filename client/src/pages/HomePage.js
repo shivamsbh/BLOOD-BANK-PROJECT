@@ -35,45 +35,78 @@ const HomePage = () => {
       {loading ? (
         <Spinner />
       ) : (
-        <>
-          <div className="container">
-            <h4
-              className="ms-4"
-              data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop"
-              style={{ cursor: "pointer" }}
-            >
-              <i className="fa-solid fa-plus text-success py-4"></i>
-              Add Inventory
-            </h4>
-            <table className="table ">
+        <div className="dashboard-container">
+          {/* Modern Dashboard Header */}
+          <div className="dashboard-header">
+            <h1 className="dashboard-title">Blood Bank Dashboard</h1>
+            <p className="dashboard-subtitle">
+              Manage and track blood inventory with real-time updates
+            </p>
+          </div>
+
+          {/* Add Inventory Button */}
+          <button
+            className="add-inventory-btn"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+          >
+            <i className="fa-solid fa-plus"></i>
+            Add New Inventory
+          </button>
+
+          {/* Modern Table Container */}
+          <div className="modern-table-container">
+            <table className="modern-table">
               <thead>
                 <tr>
                   <th scope="col">Blood Group</th>
-                  <th scope="col">Inventory Type</th>
+                  <th scope="col">Type</th>
                   <th scope="col">Quantity</th>
                   <th scope="col">Donor Email</th>
-                  <th scope="col">Time & Date</th>
+                  <th scope="col">Date & Time</th>
                 </tr>
               </thead>
               <tbody>
-                {data?.map((record) => (
-                  <tr key={record._id}>
-                    <td>{record.bloodGroup}</td>
-                    <td>{record.inventoryType}</td>
-                    <td>{record.quantity} (ML)</td>
-                    <td>{record.email}</td>
-                    <td>
-                      {moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}
+                {data?.length > 0 ? (
+                  data.map((record) => (
+                    <tr key={record._id}>
+                      <td>
+                        <span className="blood-group-badge">
+                          {record.bloodGroup}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="inventory-type-badge">
+                          {record.inventoryType}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="quantity-display">
+                          {record.quantity} ML
+                        </span>
+                      </td>
+                      <td>{record.email}</td>
+                      <td>
+                        {moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" style={{ textAlign: 'center', padding: '2rem' }}>
+                      <div style={{ color: 'var(--secondary-light)', fontSize: '1.1rem' }}>
+                        <i className="fa-solid fa-droplet" style={{ marginRight: '0.5rem' }}></i>
+                        No blood inventory records found. Add your first record!
+                      </div>
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
-
-            <Modal />
           </div>
-        </>
+
+          <Modal />
+        </div>
       )}
     </Layout>
   );

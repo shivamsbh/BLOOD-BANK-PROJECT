@@ -34,9 +34,26 @@ const Form = ({ formType, submitBtn, formTitle }) => {
             );
         }}
       >
-        <h1 className="text-center">{formTitle}</h1>
-        <hr />
-        <div className="d-flex mb-3">
+        <h1 className="text-center" style={{ 
+          fontFamily: 'var(--font-display)', 
+          fontSize: 'var(--text-3xl)', 
+          fontWeight: '700',
+          color: 'var(--secondary-color)',
+          marginBottom: 'var(--spacing-lg)'
+        }}>{formTitle}</h1>
+        <hr style={{ 
+          border: 'none', 
+          height: '2px', 
+          background: 'var(--gradient-primary)', 
+          marginBottom: 'var(--spacing-xl)' 
+        }} />
+        <div style={{ 
+          display: 'flex', 
+          gap: 'var(--spacing-lg)', 
+          marginBottom: 'var(--spacing-xl)',
+          justifyContent: 'center',
+          flexWrap: 'wrap'
+        }}>
           <div className="form-check">
             <input
               type="radio"
@@ -47,11 +64,16 @@ const Form = ({ formType, submitBtn, formTitle }) => {
               onChange={(e) => setRole(e.target.value)}
               defaultChecked
             />
-            <label htmlFor="adminRadio" className="form-check-label">
+            <label htmlFor="donorRadio" className="form-check-label" style={{
+              fontFamily: 'var(--font-secondary)',
+              fontSize: 'var(--text-sm)',
+              fontWeight: '600',
+              color: 'var(--secondary-color)'
+            }}>
               Donor
             </label>
           </div>
-          <div className="form-check ms-2">
+          <div className="form-check">
             <input
               type="radio"
               className="form-check-input"
@@ -60,11 +82,16 @@ const Form = ({ formType, submitBtn, formTitle }) => {
               value={"admin"}
               onChange={(e) => setRole(e.target.value)}
             />
-            <label htmlFor="adminRadio" className="form-check-label">
+            <label htmlFor="adminRadio" className="form-check-label" style={{
+              fontFamily: 'var(--font-secondary)',
+              fontSize: 'var(--text-sm)',
+              fontWeight: '600',
+              color: 'var(--secondary-color)'
+            }}>
               Admin
             </label>
           </div>
-          <div className="form-check ms-2">
+          <div className="form-check">
             <input
               type="radio"
               className="form-check-input"
@@ -73,11 +100,16 @@ const Form = ({ formType, submitBtn, formTitle }) => {
               value={"hospital"}
               onChange={(e) => setRole(e.target.value)}
             />
-            <label htmlFor="hospitalRadio" className="form-check-label">
+            <label htmlFor="hospitalRadio" className="form-check-label" style={{
+              fontFamily: 'var(--font-secondary)',
+              fontSize: 'var(--text-sm)',
+              fontWeight: '600',
+              color: 'var(--secondary-color)'
+            }}>
               Hospital
             </label>
           </div>
-          <div className="form-check ms-2">
+          <div className="form-check">
             <input
               type="radio"
               className="form-check-input"
@@ -86,7 +118,12 @@ const Form = ({ formType, submitBtn, formTitle }) => {
               value={"organisation"}
               onChange={(e) => setRole(e.target.value)}
             />
-            <label htmlFor="organisationRadio" className="form-check-label">
+            <label htmlFor="organisationRadio" className="form-check-label" style={{
+              fontFamily: 'var(--font-secondary)',
+              fontSize: 'var(--text-sm)',
+              fontWeight: '600',
+              color: 'var(--secondary-color)'
+            }}>
               Organisation
             </label>
           </div>
@@ -199,14 +236,38 @@ const Form = ({ formType, submitBtn, formTitle }) => {
 
         <div className="d-flex flex-row justify-content-between">
           {formType === "login" ? (
-            <p>
-              Not registered yet ? Register
-              <Link to="/register"> Here !</Link>
+            <p style={{ 
+              fontFamily: 'var(--font-secondary)', 
+              fontSize: 'var(--text-base)', 
+              fontWeight: '500',
+              textAlign: 'center',
+              color: 'var(--secondary-light)',
+              marginBottom: 'var(--spacing-lg)'
+            }}>
+              Not registered yet? 
+              <Link to="/register" style={{ 
+                color: 'var(--primary-color)', 
+                fontWeight: '600',
+                textDecoration: 'none',
+                marginLeft: 'var(--spacing-xs)'
+              }}> Register Here!</Link>
             </p>
           ) : (
-            <p>
-              ALready Usser Please
-              <Link to="/login"> Login !</Link>
+            <p style={{ 
+              fontFamily: 'var(--font-secondary)', 
+              fontSize: 'var(--text-base)', 
+              fontWeight: '500',
+              textAlign: 'center',
+              color: 'var(--secondary-light)',
+              marginBottom: 'var(--spacing-lg)'
+            }}>
+              Already have an account?
+              <Link to="/login" style={{ 
+                color: 'var(--primary-color)', 
+                fontWeight: '600',
+                textDecoration: 'none',
+                marginLeft: 'var(--spacing-xs)'
+              }}> Login Here!</Link>
             </p>
           )}
           <button className="btn btn-primary" type="submit">

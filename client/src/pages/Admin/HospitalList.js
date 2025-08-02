@@ -42,35 +42,85 @@ const HospitalList = () => {
 
   return (
     <Layout>
-      <table className="table ">
-        <thead>
-          <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Date</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((record) => (
-            <tr key={record._id}>
-              <td>{record.hospitalName}</td>
-              <td>{record.email}</td>
-              <td>{record.phone}</td>
-              <td>{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(record._id)}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="dashboard-container">
+        {/* Modern Dashboard Header */}
+        <div className="dashboard-header">
+          <h1 className="dashboard-title">Hospital Management</h1>
+          <p className="dashboard-subtitle">
+            Manage and oversee all registered hospitals in the network
+          </p>
+        </div>
+
+        <div className="modern-table-container">
+          <table className="modern-table">
+            <thead>
+              <tr>
+                <th scope="col">Hospital Name</th>
+                <th scope="col">Email Address</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Registration Date</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data?.length > 0 ? (
+                data.map((record) => (
+                  <tr key={record._id}>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <i className="fa-solid fa-hospital" style={{ color: 'var(--primary-color)' }}></i>
+                        {record.hospitalName}
+                      </div>
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <i className="fa-solid fa-envelope" style={{ color: 'var(--accent-color)' }}></i>
+                        {record.email}
+                      </div>
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <i className="fa-solid fa-phone" style={{ color: 'var(--success-color)' }}></i>
+                        {record.phone}
+                      </div>
+                    </td>
+                    <td>
+                      <span className="inventory-type-badge">
+                        {moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleDelete(record._id)}
+                        style={{ 
+                          background: 'var(--gradient-primary)', 
+                          border: 'none',
+                          borderRadius: 'var(--radius-md)',
+                          padding: 'var(--spacing-sm) var(--spacing-md)',
+                          transition: 'var(--transition-normal)'
+                        }}
+                      >
+                        <i className="fa fa-trash" style={{ marginRight: '0.5rem' }}></i>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" style={{ textAlign: 'center', padding: '2rem' }}>
+                    <div style={{ color: 'var(--secondary-light)', fontSize: '1.1rem' }}>
+                      <i className="fa-solid fa-hospital" style={{ marginRight: '0.5rem' }}></i>
+                      No hospitals registered yet. Hospitals will appear here once registered.
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </Layout>
   );
 };

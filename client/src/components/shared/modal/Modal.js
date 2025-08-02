@@ -49,9 +49,21 @@ const Modal = () => {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="staticBackdropLabel">
-                Manage Blood Record
-              </h1>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-sm)' }}>
+                <div style={{ 
+                  background: 'var(--gradient-primary)', 
+                  borderRadius: '50%', 
+                  padding: 'var(--spacing-sm)', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center'
+                }}>
+                  <i className="fa-solid fa-droplet" style={{ color: 'white', fontSize: '1rem' }}></i>
+                </div>
+                <h1 className="modal-title fs-5" id="staticBackdropLabel">
+                  Manage Blood Inventory
+                </h1>
+              </div>
               <button
                 type="button"
                 className="btn-close"
@@ -60,32 +72,34 @@ const Modal = () => {
               />
             </div>
             <div className="modal-body">
-              <div className="d-flex mb-3">
-                Blood Type: &nbsp;
-                <div className="form-check ms-3">
-                  <input
-                    type="radio"
-                    name="inRadio"
-                    defaultChecked
-                    value={"in"}
-                    onChange={(e) => setInventoryType(e.target.value)}
-                    className="form-check-input"
-                  />
-                  <label htmlFor="in" className="form-check-label">
-                    IN
-                  </label>
-                </div>
-                <div className="form-check ms-3">
-                  <input
-                    type="radio"
-                    name="inRadio"
-                    value={"out"}
-                    onChange={(e) => setInventoryType(e.target.value)}
-                    className="form-check-input"
-                  />
-                  <label htmlFor="out" className="form-check-label">
-                    OUT
-                  </label>
+              <div style={{ marginBottom: 'var(--spacing-xl)' }}>
+                <label className="form-label">Inventory Type</label>
+                <div style={{ display: 'flex', gap: 'var(--spacing-lg)' }}>
+                  <div className="form-check">
+                    <input
+                      type="radio"
+                      name="inRadio"
+                      defaultChecked
+                      value={"in"}
+                      onChange={(e) => setInventoryType(e.target.value)}
+                      className="form-check-input"
+                    />
+                    <label htmlFor="in" className="form-check-label">
+                      Blood In
+                    </label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      type="radio"
+                      name="inRadio"
+                      value={"out"}
+                      onChange={(e) => setInventoryType(e.target.value)}
+                      className="form-check-input"
+                    />
+                    <label htmlFor="out" className="form-check-label">
+                      Blood Out
+                    </label>
+                  </div>
                 </div>
               </div>
               <select

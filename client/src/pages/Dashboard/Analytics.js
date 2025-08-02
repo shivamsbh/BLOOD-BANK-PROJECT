@@ -53,54 +53,172 @@ const Analytics = () => {
   return (
     <>
       <Header />
-      <div className="d-flex flex-row flex-wrap">
-        {data?.map((record, i) => (
-          <div
-            className="card m-2 p-1"
-            key={i}
-            style={{ width: "18rem", backgroundColor: `${colors[i]}` }}
-          >
-            <div className="card-body">
-              <h1 className="card-title bg-light text-dark text-center mb-3">
-                {record.bloodGroup}
-              </h1>
-              <p className="card-text">
-                Total In : <b>{record.totalIn}</b> (ML)
-              </p>
-              <p className="card-text">
-                Total Out : <b>{record.totalOut}</b> (ML)
-              </p>
+      <div className="dashboard-container">
+        {/* Modern Dashboard Header */}
+        <div className="dashboard-header">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--spacing-md)', marginBottom: 'var(--spacing-sm)' }}>
+            <div style={{ 
+              background: 'var(--gradient-primary)', 
+              borderRadius: '50%', 
+              padding: 'var(--spacing-md)', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              boxShadow: 'var(--shadow-lg)'
+            }} className="animate-float">
+              <i className="fa-solid fa-chart-line" style={{ color: 'white', fontSize: '1.5rem' }}></i>
             </div>
-            <div className="card-footer text-light bg-dark text-center">
-              Total Available : <b>{record.availabeBlood}</b> (ML)
-            </div>
+            <h1 className="dashboard-title">Blood Bank Analytics</h1>
           </div>
-        ))}
-      </div>
-      <div className="container my-3">
-        <h1 className="my-3">Recent Blood Transactions</h1>
-        <table className="table ">
-          <thead>
-            <tr>
-              <th scope="col">Blood Group</th>
-              <th scope="col">Inventory Type</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Donor Email</th>
-              <th scope="col">Time & Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {inventoryData?.map((record) => (
-              <tr key={record._id}>
-                <td>{record.bloodGroup}</td>
-                <td>{record.inventoryType}</td>
-                <td>{record.quantity} (ML)</td>
-                <td>{record.email}</td>
-                <td>{moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}</td>
+          <p className="dashboard-subtitle">
+            Real-time insights and blood inventory statistics
+          </p>
+        </div>
+
+        {/* Blood Group Cards Grid */}
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+          gap: 'var(--spacing-xl)', 
+          marginBottom: 'var(--spacing-2xl)' 
+        }}>
+          {data?.map((record, i) => (
+            <div
+              key={i}
+              className="modern-card hover-lift"
+              style={{
+                background: `linear-gradient(135deg, ${colors[i]}15 0%, ${colors[i]}25 100%)`,
+                border: `2px solid ${colors[i]}30`,
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              <div style={{ position: 'absolute', top: '-20px', right: '-20px', fontSize: '4rem', color: `${colors[i]}20` }}>
+                <i className="fa-solid fa-droplet"></i>
+              </div>
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <div style={{ 
+                  textAlign: 'center', 
+                  marginBottom: 'var(--spacing-lg)',
+                  padding: 'var(--spacing-md)',
+                  background: colors[i],
+                  borderRadius: 'var(--radius-lg)',
+                  color: 'white'
+                }}>
+                  <h2 style={{ fontSize: '2rem', fontWeight: '700', margin: 0 }}>
+                    {record.bloodGroup}
+                  </h2>
+                </div>
+                
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--spacing-md)', marginBottom: 'var(--spacing-lg)' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ color: 'var(--success-color)', fontSize: '1.5rem', fontWeight: '700' }}>
+                      {record.totalIn}
+                    </div>
+                    <div style={{ color: 'var(--secondary-light)', fontSize: '0.9rem' }}>
+                      Total In (ML)
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ color: 'var(--error-color)', fontSize: '1.5rem', fontWeight: '700' }}>
+                      {record.totalOut}
+                    </div>
+                    <div style={{ color: 'var(--secondary-light)', fontSize: '0.9rem' }}>
+                      Total Out (ML)
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ 
+                  textAlign: 'center', 
+                  padding: 'var(--spacing-md)',
+                  background: 'var(--gradient-secondary)',
+                  borderRadius: 'var(--radius-lg)',
+                  color: 'white'
+                }}>
+                  <div style={{ fontSize: '1.8rem', fontWeight: '700', marginBottom: 'var(--spacing-xs)' }}>
+                    {record.availabeBlood}
+                  </div>
+                  <div style={{ fontSize: '0.9rem', opacity: 0.9 }}>
+                    Available (ML)
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Recent Transactions */}
+        <div className="modern-table-container">
+          <div style={{ marginBottom: 'var(--spacing-lg)' }}>
+            <h2 style={{ 
+              color: 'var(--secondary-color)', 
+              fontSize: '1.8rem', 
+              fontWeight: '700',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--spacing-sm)'
+            }}>
+              <i className="fa-solid fa-clock-rotate-left" style={{ color: 'var(--primary-color)' }}></i>
+              Recent Blood Transactions
+            </h2>
+          </div>
+          
+          <table className="modern-table">
+            <thead>
+              <tr>
+                <th scope="col">Blood Group</th>
+                <th scope="col">Type</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date & Time</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {inventoryData?.length > 0 ? (
+                inventoryData.map((record) => (
+                  <tr key={record._id}>
+                    <td>
+                      <span className="blood-group-badge">
+                        {record.bloodGroup}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="inventory-type-badge">
+                        {record.inventoryType}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="quantity-display">
+                        {record.quantity} ML
+                      </span>
+                    </td>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <i className="fa-solid fa-envelope" style={{ color: 'var(--accent-color)' }}></i>
+                        {record.email}
+                      </div>
+                    </td>
+                    <td>
+                      <span className="inventory-type-badge">
+                        {moment(record.createdAt).format("DD/MM/YYYY hh:mm A")}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" style={{ textAlign: 'center', padding: '2rem' }}>
+                    <div style={{ color: 'var(--secondary-light)', fontSize: '1.1rem' }}>
+                      <i className="fa-solid fa-chart-line" style={{ marginRight: '0.5rem' }}></i>
+                      No recent transactions found.
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );
