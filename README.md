@@ -200,7 +200,6 @@ This project is licensed under the ISC License.
 
 ## 👨‍💻 Author
 
-**TechInfoYT**
 - GitHub: [@shivamsbh](https://github.com/shivamsbh)
 - LinkedIn: [Connect with the developer](https://linkedin.com/in/your-profile)
 - Email: [Contact for collaboration](mailto:your-email@example.com)
