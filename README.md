@@ -201,8 +201,8 @@ This project is licensed under the ISC License.
 ## 👨‍💻 Author
 
 - GitHub: [@shivamsbh](https://github.com/shivamsbh)
-- LinkedIn: [Connect with the developer](https://linkedin.com/in/your-profile)
-- Email: [Contact for collaboration](mailto:your-email@example.com)
+- LinkedIn: [Connect with the developer](https://www.linkedin.com/in/shivam-saurabh-b5bb22279/)
+- Email: [Contact for collaboration](mailto:rasitak195@gmail.com)
 
 ## 🌟 Acknowledgments
 
